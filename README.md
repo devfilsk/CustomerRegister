@@ -4,6 +4,10 @@
 
 Com isso a aplicação será executada com todo o ambiente e banco de dados criado corretamente.
 
+# Endpoints
+- API: http://localhost:8080/api/v1/
+- Front End: http://localhost:4200/
+
 # Documentação:
 http://localhost:8080/swagger-ui.html
 
@@ -60,3 +64,7 @@ O sistema permite o cadastro de clientes com suas informações pessoais, telefo
 - [x] Implementar testes de integração e unitarios
 
 ## Tecnologias Utilizadas
+- Java com Spring Boot e libs como lombok para facilitar escrita do codigo, h2 para execução do banco em memória durante os testes.
+- Postgres
+- Docker + docker compose
+-

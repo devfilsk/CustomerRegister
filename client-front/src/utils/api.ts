@@ -10,7 +10,6 @@ const api = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   (config) => {
-    // You can add auth token here if needed
     return config;
   },
   (error) => {
@@ -24,8 +23,6 @@ api.interceptors.response.use(
   (error) => {
     // Handle errors globally here
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
       console.error('Response error:', error.response.data);
     } else if (error.request) {
       // The request was made but no response was received
