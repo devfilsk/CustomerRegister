@@ -1,0 +1,54 @@
+services:
+  postgres:
+    container_name: 'client_database'
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=customers'
+      - 'POSTGRES_USER=user'
+      - 'POSTGRES_PASSWORD=password'
+    ports:
+      - '54322:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      dockerfile: ./client-app/Dockerfile.dev
+    container_name: 'api'
+    volumes:
+      - ./client-app:/app
+    environment:
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+      - SPRING_DEVTOOLS_LIVERELOAD_ENABLED=true
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/customers
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+      - MAVEN_CONFIG=/root/.m2
+    command: ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+      - "35729:35729"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./client-front
+      dockerfile: Dockerfile
+    container_name: angular-app
+    volumes:
+      - ./client-front:/app
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm start -- --host 0.0.0.0 --poll 2000"
+    depends_on:
+      - app
+
+volumes:
+  postgres_data:
