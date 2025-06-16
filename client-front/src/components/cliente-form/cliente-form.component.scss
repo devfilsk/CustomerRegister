@@ -1,0 +1,69 @@
+.form-section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.telefone-item,
+.endereco-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.button-container {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 0.5rem;
+}
+
+.actions {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+// Loading state
+.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+  }
+}
+
+// Responsive adjustments
+@media screen and (max-width: 768px) {
+  .form-section {
+    padding: 0.75rem;
+  }
+
+  .telefone-item,
+  .endereco-item {
+    padding: 0.75rem;
+  }
+} 

@@ -1,0 +1,226 @@
+<po-page-default p-title="{{ clienteEdicao ? 'Editar Cliente' : 'Cadastrar Cliente' }}">
+  <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()" [class.loading]="loading">
+    <!-- Dados Pessoais -->
+    <section class="form-section">
+      <po-divider p-label="Dados Pessoais"></po-divider>
+      
+      <div class="po-row">
+        <po-input
+          class="po-md-12"
+          p-label="Nome Completo"
+          p-placeholder="Digite o nome completo"
+          formControlName="nome"
+          [p-required]="true"
+          [p-disabled]="loading">
+        </po-input>
+      </div>
+
+      <div class="po-row">
+        <po-input
+          class="po-md-6"
+          p-label="CPF"
+          p-placeholder="000.000.000-00"
+          p-mask="999.999.999-99"
+          formControlName="cpf"
+          [p-required]="true"
+          [p-disabled]="loading">
+        </po-input>
+        
+        <po-email
+          class="po-md-6"
+          p-label="E-mail"
+          p-placeholder="exemplo@email.com"
+          formControlName="email"
+          [p-required]="true"
+          [p-disabled]="loading">
+        </po-email>
+      </div>
+    </section>
+
+    <!-- Telefones -->
+    <section class="form-section">
+      <po-divider p-label="Telefones"></po-divider>
+      
+      <div formArrayName="telefones">
+        <div *ngFor="let telefone of telefones.controls; let i = index" 
+             [formGroupName]="i" 
+             class="po-row telefone-item">
+          <po-select
+            class="po-md-3"
+            p-label="Tipo"
+            [p-options]="tiposTelefone"
+            formControlName="tipo"
+            [p-required]="true"
+            [p-disabled]="loading">
+          </po-select>
+          
+          <po-input
+            class="po-md-7"
+            p-label="Número"
+            p-placeholder="(00) 00000-0000"
+            p-mask="(99) 99999-9999"
+            formControlName="numero"
+            [p-required]="true"
+            [p-disabled]="loading">
+          </po-input>
+          
+          <div class="po-md-2 button-container">
+            <po-button
+              p-icon="po-icon-delete"
+              p-type="danger"
+              p-size="small"
+              (p-click)="removerTelefone(i)"
+              [p-disabled]="telefones.length === 1 || loading">
+            </po-button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="po-row">
+        <po-button
+          class="po-md-12"
+          p-label="Adicionar Telefone"
+          p-icon="po-icon-plus"
+          p-type="link"
+          (p-click)="adicionarTelefone()"
+          [p-disabled]="loading">
+        </po-button>
+      </div>
+    </section>
+
+    <!-- Endereços -->
+    <section class="form-section">
+      <po-divider p-label="Endereços"></po-divider>
+      
+      <div formArrayName="enderecos">
+        <div *ngFor="let endereco of enderecos.controls; let i = index" 
+             [formGroupName]="i" 
+             class="endereco-item">
+          <div class="po-row">
+            <po-select
+              class="po-md-4"
+              p-label="Tipo"
+              [p-options]="tiposEndereco"
+              formControlName="tipo"
+              [p-required]="true"
+              [p-disabled]="loading">
+            </po-select>
+            
+            <po-input
+              class="po-md-4"
+              p-label="CEP"
+              p-placeholder="00000-000"
+              p-mask="99999-999"
+              formControlName="cep"
+              [p-required]="true"
+              [p-disabled]="loading">
+            </po-input>
+            
+            <div class="po-md-4 button-container">
+              <po-button
+                p-icon="po-icon-delete"
+                p-type="danger"
+                p-size="small"
+                (p-click)="removerEndereco(i)"
+                [p-disabled]="enderecos.length === 1 || loading">
+              </po-button>
+            </div>
+          </div>
+          
+          <div class="po-row">
+            <po-input
+              class="po-md-8"
+              p-label="Logradouro"
+              p-placeholder="Rua, Avenida, etc."
+              formControlName="logradouro"
+              [p-required]="true"
+              [p-disabled]="loading">
+            </po-input>
+            
+            <po-input
+              class="po-md-4"
+              p-label="Número"
+              p-placeholder="123"
+              formControlName="numero"
+              [p-required]="true"
+              [p-disabled]="loading">
+            </po-input>
+          </div>
+          
+          <div class="po-row">
+            <po-input
+              class="po-md-4"
+              p-label="Complemento"
+              p-placeholder="Apto, Bloco, etc."
+              formControlName="complemento"
+              [p-disabled]="loading">
+            </po-input>
+            
+            <po-input
+              class="po-md-4"
+              p-label="Bairro"
+              p-placeholder="Nome do bairro"
+              formControlName="bairro"
+              [p-required]="true"
+              [p-disabled]="loading">
+            </po-input>
+            
+            <po-input
+              class="po-md-4"
+              p-label="Cidade"
+              p-placeholder="Nome da cidade"
+              formControlName="cidade"
+              [p-required]="true"
+              [p-disabled]="loading">
+            </po-input>
+          </div>
+          
+          <div class="po-row">
+            <po-select
+              class="po-md-12"
+              p-label="Estado"
+              [p-options]="estados"
+              formControlName="estado"
+              [p-required]="true"
+              [p-disabled]="loading">
+            </po-select>
+          </div>
+          
+          <po-divider *ngIf="i < enderecos.length - 1"></po-divider>
+        </div>
+      </div>
+      
+      <div class="po-row">
+        <po-button
+          class="po-md-12"
+          p-label="Adicionar Endereço"
+          p-icon="po-icon-plus"
+          p-type="link"
+          (p-click)="adicionarEndereco()"
+          [p-disabled]="loading">
+        </po-button>
+      </div>
+    </section>
+
+    <!-- Ações -->
+    <section class="form-section actions">
+      <div class="po-row">
+        <po-button
+          class="po-md-6"
+          p-label="Cancelar"
+          p-type="default"
+          (p-click)="onCancel()"
+          [p-disabled]="loading">
+        </po-button>
+        
+        <po-button
+          class="po-md-6"
+          p-label="{{ clienteEdicao ? 'Atualizar' : 'Cadastrar' }}"
+          p-type="primary"
+          [p-disabled]="clienteForm.invalid || loading"
+          (p-click)="onSubmit()">
+        </po-button>
+      </div>
+    </section>
+  </form>
+</po-page-default> 

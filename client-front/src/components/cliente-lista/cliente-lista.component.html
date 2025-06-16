@@ -1,0 +1,24 @@
+<po-page-default p-title="Lista de Clientes">
+  <section class="cliente-lista">
+    <div class="po-row">
+      <po-button
+        class="po-md-12"
+        p-label="Novo Cliente"
+        p-icon="po-icon-plus"
+        p-type="primary"
+        (p-click)="router.navigate(['/clients/new'])">
+      </po-button>
+    </div>
+    
+    <po-table
+      [p-columns]="columns"
+      [p-items]="customers"
+      [p-loading]="loading"
+      [p-striped]="true"
+      [p-height]="400"
+      [p-page-size]="pageSize"
+      [p-total]="totalElements"
+      (p-page-change)="onPageChange($event)">
+    </po-table>
+  </section>
+</po-page-default> 
