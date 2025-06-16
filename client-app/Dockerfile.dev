@@ -1,0 +1,17 @@
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+
+# Copia o Maven Wrapper e arquivos de dependência
+COPY client-app/.mvn/ .mvn
+COPY client-app/mvnw .
+COPY client-app/pom.xml .
+
+# Faz download das dependências
+RUN ./mvnw dependency:go-offline
+
+# Expõe a porta da aplicação
+EXPOSE 8080
+
+# Comando para rodar a aplicação com hot reload
+CMD ["./mvnw", "spring-boot:run"]
